@@ -112,7 +112,8 @@ class FSPagerViewLayout: UICollectionViewLayout {
         guard self.itemSpacing > 0, !rect.isEmpty else {
             return layoutAttributes
         }
-        let rect = rect.intersection(CGRect(origin: .zero, size: self.contentSize))
+        // 扩展了一下rect，解决了滑动过程中因为复用问题导致item闪现的问题
+        let rect = rect.intersection(CGRect(origin: .zero, size: self.contentSize)).insetBy(dx: -UIScreen.main.bounds.width, dy: 0)
         guard !rect.isEmpty else {
             return layoutAttributes
         }
