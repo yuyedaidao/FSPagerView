@@ -237,7 +237,7 @@ open class FSPagerViewTransformer: NSObject {
                 return
             }
             switch position {
-            case -1 ... 1:
+            if abs(position) <= 1 {
                 let padding = pagerView.interitemSpacing
                 let scale = max(1 - (1 - minimumScale) * abs(position), minimumScale)
                 var transform = CGAffineTransform(scaleX: scale, y: scale)
@@ -245,14 +245,21 @@ open class FSPagerViewTransformer: NSObject {
                 attributes.transform = transform
                 let zIndex = (1 - abs(position)) * 10
                 attributes.zIndex = Int(zIndex)
-            default:
-                let padding = pagerView.interitemSpacing
-                let scale = minimumScale
-                var transform = CGAffineTransform(scaleX: scale, y: scale)
-                transform = transform.concatenating(CGAffineTransform(translationX: (position > 0 ? -1 : 1) * ((itemSpacing + itemSpacing * scale) / 2 - padding), y: 0))
-                attributes.transform = transform
-                let zIndex = (1 - abs(position)) * 10
-                attributes.zIndex = Int(zIndex)
+                attributes.alpha = 1
+            } else {
+                if abs(position) > 3 {
+                    attributes.alpha = 0
+                } else {
+                    let padding = pagerView.interitemSpacing
+                    let scale = max(1 - (1 - minimumScale) * abs(position), minimumScale)
+                    var transform = CGAffineTransform(scaleX: scale, y: scale)
+                    transform = transform.concatenating(CGAffineTransform(translationX: -position * itemSpacing + (position > 0 ? 1 : -1) * (itemSpacing * (1 - scale) / 2 + padding), y: 0))
+                    attributes.transform = transform
+                    let zIndex = (1 - abs(position)) * 20
+                    attributes.zIndex = Int(zIndex)
+                    attributes.alpha = 1
+                }
+                
             }
         }
     }
