@@ -236,7 +236,6 @@ open class FSPagerViewTransformer: NSObject {
                 // This type doesn't support vertical mode
                 return
             }
-            switch position {
             if abs(position) <= 1 {
                 let padding = pagerView.interitemSpacing
                 let scale = max(1 - (1 - minimumScale) * abs(position), minimumScale)
@@ -259,7 +258,6 @@ open class FSPagerViewTransformer: NSObject {
                     attributes.zIndex = Int(zIndex)
                     attributes.alpha = 1
                 }
-                
             }
         }
     }
