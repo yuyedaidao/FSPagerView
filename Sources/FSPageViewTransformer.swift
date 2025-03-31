@@ -37,6 +37,8 @@ open class FSPagerViewTransformer: NSObject {
             minimumScale = 0.85
         case .depth:
             minimumScale = 0.5
+        case .zCircle:
+            minimumScale = 0.8
         default:
             break
         }
