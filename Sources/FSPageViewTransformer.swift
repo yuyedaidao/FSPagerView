@@ -79,10 +79,10 @@ open class FSPagerViewTransformer: NSObject {
             var alpha: CGFloat = 0
             var transform = CGAffineTransform.identity
             switch position {
-            case -CGFloat.greatestFiniteMagnitude ..< -1: // [-Infinity,-1)
+            case -CGFloat.greatestFiniteMagnitude ..< -2: // [-Infinity,-1)
                 // This page is way off-screen to the left.
                 alpha = 0
-            case -1 ... 1: // [-1,1]
+            case -2 ... 2: // [-1,1]
                 // Modify the default slide transition to shrink the page as well
                 let scaleFactor = max(minimumScale, 1 - abs(position))
                 transform.a = scaleFactor
@@ -99,7 +99,7 @@ open class FSPagerViewTransformer: NSObject {
                 }
                 // Fade the page relative to its size.
                 alpha = minimumAlpha + (scaleFactor - minimumScale) / (1 - minimumScale) * (1 - minimumAlpha)
-            case 1 ... CGFloat.greatestFiniteMagnitude: // (1,+Infinity]
+            case 2 ... CGFloat.greatestFiniteMagnitude: // (1,+Infinity]
                 // This page is way off-screen to the right.
                 alpha = 0
             default:
